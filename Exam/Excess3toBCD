@@ -1,0 +1,33 @@
+module excess3toBCD(b,e);
+	input [3:0]e;
+	output [3:0]b;
+	wire out1,out2,out3,c1,c0;
+	and(out1,e[0],e[1]);
+	or(out2,out1,e[2]);
+	not(c1,e[1]);
+	not(c0,e[0]);
+	or(out3,c1,c0);
+
+	not(b[0],e[0]);
+	xor(b[1],e[1],e[0]);
+	xor(b[2],e[2],out3);
+	and(b[3],e[3],out2);
+endmodule
+module excess3toBCDtb;
+	reg [3:0]e;
+	wire [3:0]b;
+	excess3toBCD eb(b,e);
+initial begin
+	#0; e = 4'b0011;
+	#50; e = 4'b0100;
+	#50; e = 4'b0101;
+	#50; e = 4'b0110;
+	#50; e = 4'b0110;
+	#50; e = 4'b0111;
+	#50; e = 4'b1000;
+	#50; e = 4'b1001;	
+	#50; e = 4'b1010;
+	#50; e = 4'b1011;
+	#50; e = 4'b1100;
+end
+endmodule
