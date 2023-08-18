@@ -1,0 +1,44 @@
+module upDownCounter(q,clk,m);
+	input m,clk;
+	output[2:0]q;
+
+	wire t,clr,mbar;
+	wire [2:0]qbar;
+	buf(t,1'b1);
+	not(mbar,m);
+
+	jk jk1(q[0],qbar[0],t,t,clk,clr);
+	
+	wire and1,and2,or1;
+	and(and1,mbar,q[0]);
+	and(and2,m,qbar[0]);
+	or(or1,and1,and2);
+
+	jk jk2(q[1],qbar[1],or1,or1,clk,clr);
+	
+	wire and3,and4,or2;
+	
+	and(and3,and1,q[1]);
+	and(and4,and2,qbar[1]);
+	or(or2,and3,and4);
+
+	jk jk3(q[2],qbar[2],or2,or2,clk,clr);
+endmodule
+/*module jk(q,qbar,j,k,clk,clr);
+	input j,k,clk,clr;
+	output q,qbar;
+	wire n1,n2,n3,n4,n5,n6,n7;
+	
+	nand(n1,j,clk,qbar,clr);
+	nand(n2,k,clk,q);
+	nand(n3,n4,n1);
+	nand(n4,n3,n2,clr);
+	
+	not(n7,clk);
+
+	nand(n5,n7,n3);
+	nand(n6,n7,n4);
+	nand(q,qbar,n5);
+	nand(qbar,q,n6,clr);
+
+endmodule*/
