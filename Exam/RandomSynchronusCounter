@@ -1,0 +1,24 @@
+//0000->1000->1100->1110->1111->0111->0011->0001
+module randomSyn(q,clk,clr);
+	input clk,clr;
+	output [3:0]q;
+
+	wire [3:0]t,qbar;
+	xor(t[0],q[1],q[0]);
+	jk jk1(q[0],qbar[0],t[0],t[0],clk,clr);
+
+	xor(t[1],q[2],q[1]);
+	jk jk2(q[1],qbar[1],t[1],t[1],clk,clr);
+
+	xor(t[2],q[3],q[2]);
+	jk jk3(q[2],qbar[2],t[2],t[2],clk,clr);
+
+	xnor(t[3],q[3],q[0]);
+	jk jk4(q[3],qbar[3],t[3],t[3],clk,clr);
+endmodule
+module tFlipFlop(q,qbar,t,clk,clr);
+	input t,clk,clr;
+	output q,qbar;
+	jk jk1(q,qbar,t,t,clk,clr);
+endmodule
+	
