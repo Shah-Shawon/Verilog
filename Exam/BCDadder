@@ -1,0 +1,41 @@
+module bcdAdder(sum,cout,a,b,cin);
+	input [3:0]a,b;
+	input cin;
+	output [3:0]sum;
+	output cout;
+
+	wire co,c2;
+	wire [3:0]s1,b1;
+
+	Adder a1(s1,co,a,b,cin);
+
+	wire out1,out2,out3;
+	and(out1,s1[3],s1[2]);
+	and(out2,s1[1],s1[3]);
+	or(out3,out1,out2);
+	or(cout,co,out3);
+
+	buf(b1[0],1'b0);
+	buf(b1[1],cout);
+	buf(b1[2],cout);
+	buf(b1[3],1'b0);
+
+	wire ignore;
+	buf(ignore,1'b0);
+
+	Adder a2(sum,c2,s1,b1,ignore);
+
+endmodule
+module Adder(sum,cout,a,b,cin);
+	input [3:0]a,b;
+	input cin;
+	output [3:0]sum;
+	output cout;
+
+	wire [2:0]c;
+
+	fullAdder FA1(sum[0],c[0],a[0],b[0],cin);
+	fullAdder FA2(sum[1],c[1],a[1],b[1],c[0]);
+	fullAdder FA3(sum[2],c[2],a[2],b[2],c[1]);
+	fullAdder FA4(sum[3],cout,a[3],b[3],c[2]);
+endmodule
