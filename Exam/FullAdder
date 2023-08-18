@@ -1,0 +1,14 @@
+module fullAdder(sum,cout,a,b,cin);
+	input a,b,cin;
+	output sum,cout;
+	wire s1,c1,c2;
+	halfAdder HA1(s1,c1,a,b);
+	halfAdder HA2(sum,c2,s1,cin);
+	or(cout,c1,c2);
+endmodule
+/*module halfAdder(sum,c,a,b);
+	input a,b;
+	output sum,c;
+	xor(sum,a,b);
+	and(c,a,b);
+endmodule*/
