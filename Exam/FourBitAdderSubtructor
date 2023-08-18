@@ -1,0 +1,51 @@
+module adderSubtructor(sum,cout,a,b,cin);
+	input [3:0]a,b;
+	input cin;
+	output [3:0]sum;
+	output cout;
+
+	wire [2:0]c;
+	wire [3:0]cb;
+	xor(cb[0],b[0],cin);
+	xor(cb[1],b[1],cin);
+	xor(cb[2],b[2],cin);
+	xor(cb[3],b[3],cin);
+
+	fullAdder FA1(sum[0],c[0],a[0],cb[0],cin);
+	fullAdder FA2(sum[1],c[1],a[1],cb[1],c[0]);
+	fullAdder FA3(sum[2],c[2],a[2],cb[2],c[1]);
+	fullAdder FA4(sum[3],cout,a[3],cb[3],c[2]);
+endmodule
+module adderSubtrubtrtest;
+	reg [3:0]a,b;
+	reg cin;
+	wire [3:0]sum;
+	wire cout;
+	adderSubtructor AS(sum,cout,a,b,cin);
+	initial 
+		begin
+		#0 a=4'b0000;	b=4'b0001; cin = 0;//1
+		#50 a=4'b0011;	b=4'b0001; cin = 0;//4
+		#50 a=4'b0110;	b=4'b0100; cin = 0;//10
+		#50 a=4'b1000;	b=4'b0111; cin = 0;//15
+		#50 a=4'b1000;	b=4'b1000; cin = 0;//16
+		#50 a=4'b0011;	b=4'b0001; cin = 1;//2
+		#50 a=4'b1010;	b=4'b0100; cin = 1;//6
+		#50 a=4'b1000;	b=4'b0111; cin = 1;//1
+		#50 a=4'b1000;	b=4'b1000; cin = 1;//0
+	end 
+endmodule
+/*module fullAdder(sum,cout,a,b,cin);
+	input a,b,cin;
+	output sum,cout;
+	wire s1,c1,c2;
+	halfAdder HA1(s1,c1,a,b);
+	halfAdder HA2(sum,c2,s1,cin);
+	or(cout,c1,c2);
+endmodule*/
+/*module halfAdder(sum,c,a,b);
+	input a,b;
+	output sum,c;
+	xor(sum,a,b);
+	and(c,a,b);
+endmodule*/
